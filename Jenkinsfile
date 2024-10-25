@@ -2,16 +2,16 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION = 'us-east-1' // specify the AWS region
-        TF_VAR_access_key = credentials('AWS_ACCESS_KEY_ID') // Jenkins credentials ID
-        TF_VAR_secret_key = credentials('AWS_SECRET_ACCESS_KEY') // Jenkins credentials ID
+        AWS_REGION = 'us-east-1'  // specify the AWS region
+        TF_VAR_access_key = credentials('AWS_ACCESS_KEY_ID')  // Jenkins credentials ID
+        TF_VAR_secret_key = credentials('AWS_SECRET_ACCESS_KEY')  // Jenkins credentials ID
     }
 
     stages {
         stage('Checkout Code') {
             steps {
-                // Pull the Terraform code from the repository
-                checkout scm
+                // Clone the specified GitHub repository
+                git url: 'https://github.com/mintuky1508/new-jenkins-tf.git', branch: 'main'
             }
         }
 
