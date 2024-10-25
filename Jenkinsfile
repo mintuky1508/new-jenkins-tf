@@ -3,8 +3,8 @@ pipeline {
 
     environment {
         AWS_REGION = 'us-east-1' // specify the AWS region
-        TF_VAR_access_key = credentials('AWS_ACCESS_KEY_ID') // Jenkins credentials ID
-        TF_VAR_secret_key = credentials('AWS_SECRET_ACCESS_KEY') // Jenkins credentials ID
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID') // Jenkins credentials ID
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY') // Jenkins credentials ID
     }
 
     stages {
@@ -18,19 +18,7 @@ pipeline {
         stage('Initialize Terraform') {
             steps {
                 script {
-                    dir('terraform') { // Ensure you're in the correct directory
-                        bat 'terraform init -input=false'
-                    }
-                }
-            }
-        }
-
-        stage('Validate Configuration') {
-            steps {
-                script {
-                    dir('terraform') { // Ensure you're in the correct directory
-                        bat 'terraform validate'
-                    }
+                    bat 'terraform init -input=false'
                 }
             }
         }
@@ -38,9 +26,7 @@ pipeline {
         stage('Plan Infrastructure') {
             steps {
                 script {
-                    dir('terraform') { // Ensure you're in the correct directory
-                        bat 'terraform plan -out=tfplan'
-                    }
+                    bat 'terraform plan -out=tfplan'
                 }
             }
         }
@@ -48,9 +34,7 @@ pipeline {
         stage('Apply Infrastructure') {
             steps {
                 script {
-                    dir('terraform') { // Ensure you're in the correct directory
-                        bat 'terraform apply -input=false tfplan'
-                    }
+                    bat 'terraform apply -input=false tfplan'
                 }
             }
         }
